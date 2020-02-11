@@ -1,18 +1,26 @@
+import time
+from selenium import webdriver
 from bs4 import BeautifulSoup
-import requests
-
-url = "https://www.chrono24.co.uk/rolex/index.htm?dosearch=true&query=rolex"
-headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:71.0) Gecko/20100101 Firefox/71.0'}
-page = requests.get(url, headers=headers)  # get the request
-soup = BeautifulSoup(page.content, 'html.parser')  # create the soup to scrape
-
-mydivs = soup.findAll("div", {"class": "article-image-container"})
-print(mydivs)
-# mydivs = soup.findAll("div", {"class": "content"}) # need to extract the img somehow
 
 
-file = open("testfile.txt", "w")
+browser = webdriver.Chrome()
+browser.get('https://www.chrono24.co.uk/rolex/index.htm?dosearch=true&query=rolex')
 
-file.write(str(mydivs))
+# time in milliseconds before each scroll
+list = [500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000]
+for i in list:
+    time.sleep(0.5)
+    command = "window.scrollTo(0, " + str(i) + ")"
 
-file.close()
+    browser.execute_script(command)  # render the entire page before passing into soup otherwise src won't appaer
+
+html_rendered = browser.page_source
+browser.close()  # close the browser
+
+soup = BeautifulSoup(html_rendered, 'html.parser')  # create the soup
+mydivs = soup.findAll("div", {"class": "article-image-container"})  # find the class which contains the imaes
+
+for i in range(0, len(mydivs)):  # loop through the list
+    content = mydivs[i].img['src']  # extract the 'src' from the rendered page
+    print(content)
+
