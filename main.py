@@ -48,7 +48,8 @@ def scrape__one_page_one_brand_return_df(brand, page_number):
     return df
 
 
-brand = 'rolex'
+brand = 'omega'
+
 df = pd.DataFrame(columns=['brand', 'img_url', 'price'])
 for i in range(1, 3):
     page_number = str(i)
@@ -57,8 +58,7 @@ for i in range(1, 3):
     df = df.append(df_rolex_one, ignore_index=True)
 
 print(df.head())
-df.to_csv('test.csv')
-# %%
+df.to_csv(brand + '.csv')
 
 
 
