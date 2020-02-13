@@ -1,12 +1,9 @@
-# %%
-
 import time
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import re
 import pandas as pd
-
-
+import requests
 
 def scrape__one_page_one_brand_return_df(brand, page_number):
     browser = webdriver.Chrome()
@@ -77,6 +74,7 @@ def main():
         f.write(requests.get(first_url).content)
         f.close()
         print('downloading image' + index)
+
 
 if __name__ == "__main__":
     main()
