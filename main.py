@@ -48,17 +48,36 @@ def scrape__one_page_one_brand_return_df(brand, page_number):
     return df
 
 
-brand = 'omega'
+def main():
+    brand = 'omega'
 
-df = pd.DataFrame(columns=['brand', 'img_url', 'price'])
-for i in range(1, 3):
-    page_number = str(i)
+    df = pd.DataFrame(columns=['brand', 'img_url', 'price'])  # generates the dataframe that will be scraped for the image
+    for i in range(1, 3):
+        page_number = str(i)
 
-    df_rolex_one = scrape__one_page_one_brand_return_df(brand, page_number)
-    df = df.append(df_rolex_one, ignore_index=True)
+        df_rolex_one = scrape__one_page_one_brand_return_df(brand, page_number)
+        df = df.append(df_rolex_one, ignore_index=True)
 
-print(df.head())
-df.to_csv(brand + '.csv', index=False)
+    print(df.head())
+    df.to_csv(brand + '.csv', index=False)
 
+    df = pd.read_csv(brand + '.csv')
 
+    for index in range(0, df.shape[0]):
+        first_url = df.iloc[index, 1]
+        brand = df.iloc[index, 0]
+        brand = str(brand)
+
+        price = df.iloc[index, 2]
+
+        index = str(index)
+        price = str(price)
+
+        f = open('Data_Out/' + brand + '___' + index + '___' + price + '.png', 'wb')
+        f.write(requests.get(first_url).content)
+        f.close()
+        print('downloading image' + index)
+
+if __name__ == "__main__":
+    main()
 
