@@ -58,7 +58,7 @@ for i in range(1, 3):
     df = df.append(df_rolex_one, ignore_index=True)
 
 print(df.head())
-df.to_csv(brand + '.csv')
+df.to_csv(brand + '.csv', index=False)
 
 
 
