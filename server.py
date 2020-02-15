@@ -1,21 +1,26 @@
-from flask import Flask
+from flask import Flask, request
 import fastai.vision as fastai
+
 
 app = Flask(__name__)
 
 CLASSIFIER = fastai.load_learner("models", "classifier.pkl")
 
-@app.route("/classify")
+
+@app.route("/classify", methods=["POST", "OPTIONS"])
 def classify():
-    image = fastai.image.open_image("classify/test.jpg")
+    print('test')
+    files = request.files
+    image = fastai.image.open_image(files['image'])
     prediction = CLASSIFIER.predict(image)
+    print(prediction)
 
     return {
         "brandPredictions": sorted(
             list(
                 zip(
                     CLASSIFIER.data.classes,
-                    [round(x ,4) for x in map(float, prediction[2])]
+                    [round(x, 4) for x in map(float, prediction[2])]
                 )
             ),
             key=lambda p: p[1],
