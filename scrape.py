@@ -13,7 +13,7 @@ def scrape__one_page_one_brand_return_df(brand, page_number):
     # time in milliseconds before each scroll
     list = [500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000, 6500, 7000]
     for i in list:
-        time.sleep(2)
+        time.sleep(3)
         command = "window.scrollTo(0, " + str(i) + ")"
 
         browser.execute_script(command)  # render the entire page before passing into soup otherwise src won't appaer
@@ -47,7 +47,7 @@ def scrape__one_page_one_brand_return_df(brand, page_number):
 
 
 def main():
-    brand = 'oris'
+    brand = 'omega'
 
     # generates the dataframe that will be scraped for the image
     df = pd.DataFrame(columns=['brand', 'img_url', 'price'])
