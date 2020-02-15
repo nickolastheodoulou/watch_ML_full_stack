@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 
@@ -12,6 +11,9 @@ const API_CLIENT = axios.create({
 class App extends React.Component {
 
     state = {
+        predictions: {
+            brandPredictions: []
+        },
         imgSrc: ""
     } // initialise the imgSrc to blank rather tha null
 
@@ -28,17 +30,26 @@ class App extends React.Component {
         var data = new FormData()
         data.append('image', targetFile)
         API_CLIENT.post('/classify', data, {headers: {"Content-Type": targetFile.type}})
-            .then((response) => {console.log(response)})
+            .then((response) => {this.setState({predictions: response.data}) })
             .catch((error) => {console.log(error)})  // post request to send the image
     }
 
     render() {
 
         var ImagePreview
+
+
         if(this.state.imgSrc)
         {
             ImagePreview = (<img src={this.state.imgSrc} alt ="image-of-a-watch" />)
         }
+
+        var Predictions =[]
+        this.state.predictions.brandPredictions.forEach((item, index) => {
+            Predictions.push(
+                <p key = {`item-${index}`}>{item[0]} : {item[1]}</p>
+            )
+        })
 
         return (
             <div className="App">
@@ -47,7 +58,10 @@ class App extends React.Component {
                 onDragLeave={(event) =>{this._onDragLeave(event)}}
                 onDrop={(event) => {this._onDrop(event)}}>
                     {ImagePreview}
+                </div>
 
+                <div    className='predictions'>
+                    {Predictions}
                 </div>
             </div>
         )

@@ -7,7 +7,7 @@ app = Flask(__name__)
 CLASSIFIER = fastai.load_learner("models", "classifier.pkl")
 
 
-@app.route("/classify", methods=["POST", "OPTIONS"]) # define the API methods
+@app.route("/classify", methods=["POST", "OPTIONS"])  # define the API methods
 def classify():
     files = request.files
     image = fastai.image.open_image(files['image'])  # load the image from the API call
