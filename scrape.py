@@ -5,6 +5,7 @@ import re
 import pandas as pd
 import requests
 
+
 def scrape__one_page_one_brand_return_df(brand, page_number):
     browser = webdriver.Chrome()
     browser.get('https://www.chrono24.co.uk/' + brand + '/index-' + page_number + '.htm?query=' + brand)
@@ -46,19 +47,20 @@ def scrape__one_page_one_brand_return_df(brand, page_number):
 
 
 def main():
-    brand = 'omega'
+    brand = 'oris'
 
-    df = pd.DataFrame(columns=['brand', 'img_url', 'price'])  # generates the dataframe that will be scraped for the image
-    for i in range(1, 3):
+    # generates the dataframe that will be scraped for the image
+    df = pd.DataFrame(columns=['brand', 'img_url', 'price'])
+    for i in range(1, 5):
         page_number = str(i)
 
         df_rolex_one = scrape__one_page_one_brand_return_df(brand, page_number)
         df = df.append(df_rolex_one, ignore_index=True)
 
     print(df.head())
-    df.to_csv(brand + '.csv', index=False)
+    df.to_csv('Watch_List/' + brand + '.csv', index=False)
 
-    df = pd.read_csv(brand + '.csv')
+    df = pd.read_csv('Watch_List/' + brand + '.csv')
 
     for index in range(0, df.shape[0]):
         first_url = df.iloc[index, 1]
@@ -73,7 +75,7 @@ def main():
         f = open('Data_Out/' + brand + '___' + index + '___' + price + '.png', 'wb')
         f.write(requests.get(first_url).content)
         f.close()
-        print('downloading image' + index)
+        print('downloading image ' + index)
 
 
 if __name__ == "__main__":
