@@ -75,7 +75,8 @@ def main():
         f = open('Data_Out/' + brand + '___' + index + '___' + price + '.png', 'wb')
         f.write(requests.get(first_url).content)
         f.close()
-        print('downloading image ' + index)
+        print('downloading image ' + index)# test
+
 
 
 if __name__ == "__main__":
