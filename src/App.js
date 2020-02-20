@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import axios from 'axios';
 
-const API_ENDPOINT = "http://52.209.91.187/"
+const API_ENDPOINT = "http://54.229.24.97/"
 const API_CLIENT = axios.create({
       baseURL: API_ENDPOINT,
       timeout: 10000
